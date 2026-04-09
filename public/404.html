@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重定向到JBTI测试</title>
+    <script>
+        // GitHub Pages SPA重定向
+        const segmentCount = 0;
+        const location = window.location;
+
+        // 如果不是根路径，重定向到index.html
+        if (location.pathname !== '/jbti-test/' && !location.pathname.endsWith('/index.html')) {
+            const path = location.pathname;
+            const search = location.search;
+            const hash = location.hash;
+
+            // 重定向到index.html，保留路径参数
+            window.location.href = '/jbti-test/index.html' + search + hash;
+        }
+    </script>
+</head>
+<body>
+    <noscript>
+        <h1>正在重定向到JBTI测试...</h1>
+        <p>如果你的浏览器没有自动重定向，请<a href="/jbti-test/index.html">点击这里</a>。</p>
+    </noscript>
+</body>
+</html>
