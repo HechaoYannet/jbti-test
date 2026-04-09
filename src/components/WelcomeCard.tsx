@@ -24,9 +24,9 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({ onStart }) => {
 
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           测出你是<span className="font-bold text-red-600">酱板鸭</span>、
-          <span className="font-bold text-blue-600">沃尔玛塑料袋</span>、
-          <span className="font-bold text-pink-600">奶龙成精</span>还是
-          <span className="font-bold text-purple-700">终极抽象体</span>！
+          <span className="font-bold text-blue-600">米小子</span>、
+          <span className="font-bold text-pink-600">奶龙🍬</span>还是
+          <span className="font-bold text-purple-700">（隐藏款）抽象造物</span>！
         </p>
       </div>
 
@@ -48,7 +48,7 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({ onStart }) => {
           </div>
           <h3 className="text-lg font-bold text-gray-800 mb-2">16种抽象人格</h3>
           <p className="text-gray-600">
-            酱板鸭、沃尔玛塑料袋、奶龙成精、终极抽象体...总有一款适合你
+            至高、至🍬，奶龙的化身...全见过的可以把自己加进去了
           </p>
         </div>
 
@@ -58,7 +58,7 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({ onStart }) => {
           </div>
           <h3 className="text-lg font-bold text-gray-800 mb-2">2025-2026全网最梗</h3>
           <p className="text-gray-600">
-            融汇最新网络烂梗，测的不是人格，是抽象浓度
+            融汇最新网络烂梗，测的不是人格，是B……格（AI写的，我不负责口牙）（🍬）
           </p>
         </div>
       </div>
@@ -77,13 +77,13 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({ onStart }) => {
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-yellow-100 rounded-full">
               <span className="text-yellow-600 text-sm">2</span>
             </div>
-            <span className="text-gray-700">选择最符合你内心真实想法的选项，不要假装正常！</span>
+            <span className="text-gray-700">字研“J&B”量表，反应潜意识人格！网络重拳出击😡！</span>
           </li>
           <li className="flex items-start gap-3">
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-red-100 rounded-full">
               <span className="text-red-600 text-sm">3</span>
             </div>
-            <span className="text-gray-700">测试结果仅供娱乐，如有雷同，说明你也是个抽象带师</span>
+            <span className="text-gray-700">测试结果仅供娱乐，如有雷同，那孩子你无敌了😭</span>
           </li>
         </ul>
       </div>
