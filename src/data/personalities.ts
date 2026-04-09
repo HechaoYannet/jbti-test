@@ -98,8 +98,8 @@ export const personalityTypes: PersonalityType[] = [
       '一碗汤就能唤醒童年记忆'
     ],
     memeExamples: [
-      '丝瓜汤喝多了吧你',
-      '东亚家庭创伤',
+      '水煮黑背鲈吃中毒了？',
+      '核心出装：原生家庭',
       '抽象掩饰法'
     ],
     color: '#90EE90', // 丝瓜汤的浅绿色
@@ -123,70 +123,70 @@ export const personalityTypes: PersonalityType[] = [
   },
   {
     id: 'jinp',
-    name: '懂哥 2.0',
+    name: '懂王 2.0',
     description: '什么都懂，一问就顾左右而言他',
     characteristics: [
       '表面知识渊博',
       '实际只会说"不知道，但我的身材很曼妙"',
       '擅长转移话题',
-      '在懂与不懂之间反复横跳'
+      '没有人比我更懂懂王'
     ],
     memeExamples: [
       '我不知道，但我的身材很曼妙',
       '顾左右而言他',
-      '懂王转世'
+      '建国同志早年战友'
     ],
     color: '#4169E1', // 懂王的蓝色
   },
   // 第二组：B 开头 · 随缘躺平型
   {
     id: 'btmq',
-    name: '奶龙成精',
-    description: '外表可爱内心阴阳，"家人们谁懂啊"十级学者',
+    name: '你是奶龙',
+    description: '奶龙捧腹大笑.GIF',
     characteristics: [
-      '表面奶萌，实际阴阳怪气',
-      '擅长说"家人们谁懂啊"',
-      '用可爱外表掩饰抽象内心',
-      '在可爱和阴阳之间无缝切换'
+      '看我装糖阴他一手',
+      '"家人们谁懂啊"',
+      '已经没有人类了',
+      '“我才是奶龙！”'
     ],
     memeExamples: [
-      '家人们谁懂啊',
-      '奶龙歪头',
-      '可爱但抽象'
+      '龙哥不让你🍬',
+      '你🍬不🍬？',
+      '龙哥装🍬逗逗你的呀~'
     ],
     color: '#FFB6C1', // 奶龙的粉色
   },
   {
     id: 'btnq',
-    name: '沃尔玛塑料袋',
+    name: '悠悠的户晨风~',
     description: '随风飘荡毫无立场，但能装很多东西（包括烂梗）',
     characteristics: [
-      '立场？不存在的',
+      '坚定的资本主义战士',
       '擅长装各种东西',
       '老了还是沃尔玛购物袋',
-      '在风中凌乱但快乐'
+      '你别说，麦旋风真好吃'
     ],
     memeExamples: [
       '我老了还是沃尔玛购物袋',
       '随风飘荡',
-      '烂梗收集袋'
+      '编不下去了😵'
     ],
     color: '#1E90FF', // 沃尔玛的蓝色
   },
   {
     id: 'btmp',
-    name: '抽象带师',
-    description: '你是抽象文化的传承者',
+    name: '抽象派',
+    description: '你比Picasso都abstract',
     characteristics: [
-      '抽象话十级学者',
+      '构史学家（虚）',
       '擅长创造新梗',
-      '认为"此人绝非扇贝"是最高赞美',
-      '在抽象和更抽象之间游走'
+      '"此人绝非扇贝"是语言的艺术！',
+      '哟~西~'
     ],
     memeExamples: [
       '此人绝非扇贝',
       '抽象传承',
-      '梗的创造者'
+      '野生的东条英机？？'
     ],
     color: '#8A2BE2', // 抽象的紫色
   },
@@ -197,8 +197,8 @@ export const personalityTypes: PersonalityType[] = [
     characteristics: [
       '佛系MAX',
       '擅长说"如何呢又能怎"',
-      '天塌下来也要先睡一觉',
-      '在卷和躺之间选择躺平'
+      '有心有肺说是',
+      '在卷和躺之间选择卷着躺'
     ],
     memeExamples: [
       '如何呢又能怎',
@@ -260,7 +260,7 @@ export const personalityTypes: PersonalityType[] = [
   },
   {
     id: 'binp',
-    name: '终极抽象体',
+    name: '（隐藏款）抽象造物',
     description: '你已经超越烂梗，你本身就是烂梗',
     characteristics: [
       '抽象到极致',
@@ -271,7 +271,7 @@ export const personalityTypes: PersonalityType[] = [
     memeExamples: [
       '低山臭水遇知音',
       '行走的梗',
-      '抽象本体'
+      '你无敌了孩子'
     ],
     color: '#000000', // 终极的黑色
   }
