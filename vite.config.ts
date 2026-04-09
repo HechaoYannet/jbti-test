@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/jbti-test/', // 如果你部署到GitHub Pages的仓库名
+  base: process.env.NODE_ENV === 'production' ? '/' : '/', // Vercel使用根路径
   build: {
     outDir: 'dist',
     sourcemap: false,
