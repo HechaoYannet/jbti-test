@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/jbti-test/', // GitHub Pages使用子路径
+  base: '/', // Vercel使用根路径
   build: {
     outDir: 'dist',
     sourcemap: false,
