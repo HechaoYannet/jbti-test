@@ -117,7 +117,7 @@ function App() {
             <p>
               建议使用 Chrome/Edge 最新版本访问 ·
               <a
-                href="https://github.com/yourusername/jbti-test"
+                href="https://github.com/HechaoYannet/jbti-test"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-purple-600 hover:text-purple-800 ml-2"
