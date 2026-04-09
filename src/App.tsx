@@ -72,7 +72,7 @@ function App() {
             <span className="text-gray-800">抽象人格测试</span>
           </h1>
           <p className="text-gray-600 text-lg">
-            全网最梗 · 最抽象 · 最好笑的人格测试
+            全网最能融梗 · 最抽象的人格测试（试图嫁祸AI）
           </p>
         </header>
 
@@ -113,6 +113,9 @@ function App() {
           <div className="text-center text-gray-500 text-sm">
             <p className="mb-2">
               JBTI™ - Just Be Totally Interesting (才怪) · 仅供娱乐
+            </p>
+            <p>
+                对题目不满意/好奇隐藏结局？欢迎提交PR！
             </p>
             <p>
               建议使用 Chrome/Edge 最新版本访问 ·
