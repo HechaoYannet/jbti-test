@@ -9,6 +9,8 @@ interface ResultCardProps {
   onRestart: () => void;
   algorithmVersion?: 'v2' | 'v3';
   algorithmInfo?: any;
+  testStats?: any;
+  useQuestionSelection?: boolean;
 }
 
 const ResultCard: React.FC<ResultCardProps> = (props) => {

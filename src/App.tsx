@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react';
-import { questions } from './data/questions';
-import { calculateResult, getAlgorithmInfo } from './utils/testLogic';
-import { calculateAdvancedResult } from './utils/advancedAlgorithm';
 import WelcomeCard from './components/WelcomeCard';
 import QuestionCard from './components/QuestionCard';
 import ResultCard from './components/ResultCard';
-import type { Option, TestResult } from './data/types';
-import type { AdvancedTestResult } from './utils/advancedAlgorithm';
+import type { Option } from './data/types';
+import {
+  initializeTestSession,
+  handleAnswerSelection,
+  calculateTestResult,
+  getCurrentQuestion,
+  getTestProgress,
+  getTestStats,
+  validateTestConfig,
+  type TestSession,
+  type TestConfig
+} from './utils/testManager';
+import { getAlgorithmInfo } from './utils/testLogic';
+import { getSelectionStrategyInfo } from './utils/questionSelector';
 import './App.css';
 
 type TestState = 'welcome' | 'testing' | 'result';
@@ -14,62 +23,84 @@ type AlgorithmVersion = 'v2' | 'v3';
 
 function App() {
   const [testState, setTestState] = useState<TestState>('welcome');
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
-  const [result, setResult] = useState<TestResult | null>(null);
-  const [advancedResult, setAdvancedResult] = useState<AdvancedTestResult | null>(null);
+  const [testSession, setTestSession] = useState<TestSession | null>(null);
   const [algorithmVersion, setAlgorithmVersion] = useState<AlgorithmVersion>('v3');
+  const [useQuestionSelection, setUseQuestionSelection] = useState<boolean>(true);
   const [algorithmInfo, setAlgorithmInfo] = useState<any>(null);
+  const [selectionInfo, setSelectionInfo] = useState<any>(null);
 
-  // 获取算法信息
+  // 获取算法信息和抽题策略信息
   useEffect(() => {
     setAlgorithmInfo(getAlgorithmInfo());
+    setSelectionInfo(getSelectionStrategyInfo());
   }, []);
 
   // 处理开始测试
   const handleStartTest = () => {
+    const config: TestConfig = {
+      algorithmVersion,
+      useQuestionSelection
+    };
+
+    // 验证配置
+    const errors = validateTestConfig(config);
+    if (errors.length > 0) {
+      alert(`配置错误：\n${errors.join('\n')}`);
+      return;
+    }
+
+    const session = initializeTestSession(config);
+    setTestSession(session);
     setTestState('testing');
-    setCurrentQuestion(0);
-    setAnswers([]);
-    setResult(null);
-    setAdvancedResult(null);
   };
 
   // 处理选项选择
   const handleSelectOption = (_option: Option, optionIndex: number) => {
-    // 记录答案（0代表A/J，1代表B）
-    const newAnswers = [...answers, optionIndex];
-    setAnswers(newAnswers);
+    if (!testSession) return;
 
-    // 进入下一题或显示结果
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      // 所有题目答完，计算结果
-      if (algorithmVersion === 'v3') {
-        const testResult = calculateAdvancedResult(newAnswers);
-        setAdvancedResult(testResult);
-      } else {
-        const testResult = calculateResult(newAnswers);
-        setResult(testResult);
-      }
+    const { updatedSession, isTestComplete } = handleAnswerSelection(testSession, optionIndex);
+    setTestSession(updatedSession);
+
+    if (isTestComplete) {
+      // 计算测试结果（虽然这里没有直接使用，但确保测试完成）
+      calculateTestResult(updatedSession);
       setTestState('result');
+
+      // 更新结果到session（如果需要）
+      // 这里可以根据需要存储结果
     }
   };
 
   // 处理重新测试
   const handleRestart = () => {
     setTestState('welcome');
-    setCurrentQuestion(0);
-    setAnswers([]);
-    setResult(null);
-    setAdvancedResult(null);
+    setTestSession(null);
   };
 
   // 切换算法版本
   const toggleAlgorithmVersion = () => {
-    setAlgorithmVersion(algorithmVersion === 'v3' ? 'v2' : 'v3');
+    const newVersion = algorithmVersion === 'v3' ? 'v2' : 'v3';
+    setAlgorithmVersion(newVersion);
+
+    // 如果切换到v2.0，建议关闭抽题模式
+    if (newVersion === 'v2') {
+      setUseQuestionSelection(false);
+    }
   };
+
+  // 切换抽题模式
+  const toggleQuestionSelection = () => {
+    setUseQuestionSelection(!useQuestionSelection);
+  };
+
+  // 获取当前题目
+  const currentQuestion = testSession ? getCurrentQuestion(testSession) : null;
+
+  // 获取测试进度
+  const progress = testSession ? getTestProgress(testSession) : { current: 0, total: 36, percentage: 0 };
+
+  // 获取测试统计
+  const stats = testSession ? getTestStats(testSession) : null;
 
   // 添加一些有趣的背景效果
   useEffect(() => {
@@ -79,6 +110,22 @@ function App() {
       document.body.classList.remove('testing-mode');
     }
   }, [testState]);
+
+  // 获取结果用于显示
+  const getResultForDisplay = () => {
+    if (!testSession) return null;
+
+    try {
+      return calculateTestResult(testSession);
+    } catch (error) {
+      console.error('计算结果时出错:', error);
+      return null;
+    }
+  };
+
+  const result = getResultForDisplay();
+  // 告诉TypeScript这个变量是有意使用的
+  void result;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
@@ -93,10 +140,23 @@ function App() {
               JBTI
             </span>
             <span className="text-gray-800">抽象人格测试</span>
+            {/*}
+            {useQuestionSelection && selectionInfo && (
+              <span className="text-sm ml-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded-full">
+                抽题模式 v{selectionInfo.version}
+              </span>
+            )}
+            */}
           </h1>
           <p className="text-gray-600 text-lg">
             全网最能融梗 · 最抽象的人格测试（试图嫁祸AI）
           </p>
+          {useQuestionSelection && selectionInfo && (
+            <p className="text-gray-500 text-sm mt-2">
+              {/*从{selectionInfo.totalQuestions}题中抽取{selectionInfo.selectedQuestions}题 · 每次测试都有新发现！*/}
+              从题库中抽取{selectionInfo.selectedQuestions}题 · 每次测试都有新发现！
+            </p>
+          )}
         </header>
 
         {/* 主要内容 */}
@@ -107,18 +167,32 @@ function App() {
               algorithmVersion={algorithmVersion}
               onToggleAlgorithm={toggleAlgorithmVersion}
               algorithmInfo={algorithmInfo}
+              useQuestionSelection={useQuestionSelection}
+              onToggleQuestionSelection={toggleQuestionSelection}
+              selectionInfo={selectionInfo}
             />
           )}
 
-          {testState === 'testing' && (
+          {testState === 'testing' && currentQuestion && (
             <div className="animate-fadeIn">
               <QuestionCard
-                question={questions[currentQuestion]}
-                onSelect={(option) => handleSelectOption(option, questions[currentQuestion].options.indexOf(option))}
-                currentQuestion={currentQuestion + 1}
-                totalQuestions={questions.length}
+                question={currentQuestion}
+                onSelect={(option) => {
+                  const optionIndex = currentQuestion.options.indexOf(option);
+                  handleSelectOption(option, optionIndex);
+                }}
+                currentQuestion={progress.current + 1}
+                totalQuestions={progress.total}
               />
               <div className="text-center mt-6">
+                <div className="text-gray-500 text-sm mb-2">
+                  进度: {progress.current + 1}/{progress.total} ({progress.percentage}%)
+                  {stats && (
+                    <span className="ml-4">
+                      用时: {Math.floor(stats.duration / 60)}分{stats.duration % 60}秒
+                    </span>
+                  )}
+                </div>
                 <button
                   onClick={handleRestart}
                   className="text-gray-500 hover:text-gray-700 text-sm underline"
@@ -129,22 +203,16 @@ function App() {
             </div>
           )}
 
-          {testState === 'result' && (result || advancedResult) && (
+          {testState === 'result' && result && (
             <div className="animate-fadeIn">
-              {algorithmVersion === 'v3' && advancedResult ? (
-                <ResultCard
-                  result={advancedResult}
-                  onRestart={handleRestart}
-                  algorithmVersion={algorithmVersion}
-                  algorithmInfo={algorithmInfo}
-                />
-              ) : result ? (
-                <ResultCard
-                  result={result}
-                  onRestart={handleRestart}
-                  algorithmVersion={algorithmVersion}
-                />
-              ) : null}
+              <ResultCard
+                result={result}
+                onRestart={handleRestart}
+                algorithmVersion={algorithmVersion}
+                algorithmInfo={algorithmInfo}
+                testStats={stats}
+                useQuestionSelection={useQuestionSelection}
+              />
             </div>
           )}
         </main>
@@ -169,6 +237,11 @@ function App() {
                 GitHub项目地址
               </a>
             </p>
+            {useQuestionSelection && (
+              <p className="mt-2 text-xs">
+                💡 抽题模式：每次测试从题库中随机抽取36题，确保维度平衡覆盖
+              </p>
+            )}
           </div>
         </footer>
       </div>

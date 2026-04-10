@@ -7,13 +7,17 @@ interface AdvancedResultCardProps {
   onRestart: () => void;
   algorithmVersion: 'v2' | 'v3';
   algorithmInfo?: any;
+  testStats?: any;
+  useQuestionSelection?: boolean;
 }
 
 const AdvancedResultCard: React.FC<AdvancedResultCardProps> = ({
   result,
   onRestart,
   algorithmVersion,
-  algorithmInfo
+  algorithmInfo,
+  testStats,
+  useQuestionSelection
 }) => {
   const { type, breakdown, gameCamps, jbtiCode, hiddenEasterEggs, analysis } = result;
 
@@ -69,10 +73,20 @@ const AdvancedResultCard: React.FC<AdvancedResultCardProps> = ({
           <span className="text-sm font-medium text-purple-700">
             JBTI {algorithmVersion === 'v3' ? '3.0 科学私货版' : '2.0 经典荒诞版'}
           </span>
+          {useQuestionSelection && (
+            <span className="inline-flex items-center gap-1 ml-2 px-2 py-1 bg-gradient-to-r from-green-100 to-emerald-100 rounded-full">
+              <span className="text-xs font-medium text-green-700">抽题模式</span>
+            </span>
+          )}
         </div>
         {algorithmInfo && (
           <p className="text-sm text-gray-500 mt-2">
             {algorithmInfo.description} · {algorithmInfo.dimensions.length}个维度分析
+            {testStats && (
+              <span className="ml-4">
+                · 用时: {Math.floor(testStats.duration / 60)}分{testStats.duration % 60}秒
+              </span>
+            )}
           </p>
         )}
       </div>

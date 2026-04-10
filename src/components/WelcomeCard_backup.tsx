@@ -1,27 +1,19 @@
 import React from 'react';
-import { Play, Users, Brain, Sparkles, Shuffle, Database } from 'lucide-react';
+import { Play, Users, Brain, Sparkles } from 'lucide-react';
 
 interface WelcomeCardProps {
   onStart: () => void;
   algorithmVersion: 'v2' | 'v3';
   onToggleAlgorithm: () => void;
   algorithmInfo?: any;
-  useQuestionSelection?: boolean;
-  onToggleQuestionSelection?: () => void;
-  selectionInfo?: any;
 }
 
 const WelcomeCard: React.FC<WelcomeCardProps> = ({
   onStart,
   algorithmVersion,
   onToggleAlgorithm,
-  algorithmInfo,
-  useQuestionSelection = false,
-  onToggleQuestionSelection,
-  selectionInfo
+  algorithmInfo
 }) => {
-  const canUseQuestionSelection = algorithmVersion === 'v3' && selectionInfo;
-
   return (
     <div className="max-w-3xl mx-auto p-8 bg-gradient-to-br from-white to-purple-50 rounded-3xl shadow-2xl">
       {/* 标题区域 */}
@@ -29,57 +21,26 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full mb-6">
           <Sparkles size={16} className="text-purple-600" />
           <span className="text-sm font-medium text-purple-700">全网最抽象人格测试</span>
-          {canUseQuestionSelection && useQuestionSelection && (
-            <span className="inline-flex items-center gap-1 ml-2 px-2 py-1 bg-gradient-to-r from-green-100 to-emerald-100 rounded-full">
-              <Shuffle size={12} className="text-green-600" />
-              <span className="text-xs font-medium text-green-700">抽题模式</span>
-            </span>
-          )}
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
           <h1 className="text-5xl font-black text-gray-900">
             JBTI {algorithmVersion === 'v3' ? '3.0' : '2.0'}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
-              · {algorithmVersion === 'v3' ? '最终荒诞人格测试' : '经典荒诞版'}
+              · {algorithmVersion === 'v3' ? '科学私货版' : '最终荒诞人格测试'}
             </span>
           </h1>
 
-          {/* 控制按钮组 */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            {/* 算法版本切换 */}
-            <button
-              onClick={onToggleAlgorithm}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200 rounded-full transition-all"
-            >
-              <span className="text-sm font-medium text-blue-700">
-                {algorithmVersion === 'v3' ? '🔬 科学私货版' : '🎭 经典荒诞版'}
-              </span>
-              <span className="text-xs text-gray-500">切换</span>
-            </button>
-
-            {/* 抽题模式切换（仅v3.0可用） */}
-            {canUseQuestionSelection && onToggleQuestionSelection && (
-              <button
-                onClick={onToggleQuestionSelection}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-100 to-emerald-100 hover:from-green-200 hover:to-emerald-200 rounded-full transition-all"
-                title={useQuestionSelection ? '切换到完整题库模式' : '切换到抽题模式'}
-              >
-                {useQuestionSelection ? (
-                  <>
-                    <Shuffle size={14} className="text-green-600" />
-                    <span className="text-sm font-medium text-green-700">抽题模式</span>
-                  </>
-                ) : (
-                  <>
-                    <Database size={14} className="text-emerald-600" />
-                    <span className="text-sm font-medium text-emerald-700">完整题库</span>
-                  </>
-                )}
-                <span className="text-xs text-gray-500">切换</span>
-              </button>
-            )}
-          </div>
+          {/* 算法版本切换 */}
+          <button
+            onClick={onToggleAlgorithm}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200 rounded-full transition-all"
+          >
+            <span className="text-sm font-medium text-blue-700">
+              {algorithmVersion === 'v3' ? '🔬 科学私货版' : '🎭 经典荒诞版'}
+            </span>
+            <span className="text-xs text-gray-500">切换</span>
+          </button>
         </div>
 
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -89,41 +50,17 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
           <span className="font-bold text-purple-700">（隐藏款）抽象造物</span>！
         </p>
 
-        {/* 模式信息卡片 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {algorithmInfo && (
-            <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
-              <div className="flex items-center gap-2 mb-2">
-                <Brain size={16} className="text-blue-600" />
-                <span className="text-sm font-medium text-blue-700">算法信息</span>
-              </div>
-              <p className="text-sm text-gray-600">
-                {algorithmInfo.description} · {algorithmInfo.dimensions?.length || 0}个维度分析
-              </p>
+        {algorithmInfo && (
+          <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
+            <div className="flex items-center gap-2 mb-2">
+              <Brain size={16} className="text-blue-600" />
+              <span className="text-sm font-medium text-blue-700">算法信息</span>
             </div>
-          )}
-
-          {canUseQuestionSelection && selectionInfo && (
-            <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
-              <div className="flex items-center gap-2 mb-2">
-                {useQuestionSelection ? (
-                  <Shuffle size={16} className="text-green-600" />
-                ) : (
-                  <Database size={16} className="text-emerald-600" />
-                )}
-                <span className="text-sm font-medium text-green-700">
-                  {useQuestionSelection ? '抽题模式' : '完整题库'}
-                </span>
-              </div>
-              <p className="text-sm text-gray-600">
-                {useQuestionSelection
-                  ? `从${selectionInfo.totalQuestions}题中抽取${selectionInfo.selectedQuestions}题`
-                  : `使用完整${selectionInfo.totalQuestions}题题库`
-                }
-              </p>
-            </div>
-          )}
-        </div>
+            <p className="text-sm text-gray-600">
+              {algorithmInfo.description} · {algorithmInfo.dimensions?.length || 0}个维度分析
+            </p>
+          </div>
+        )}
       </div>
 
       {/* 特性介绍 */}
@@ -138,11 +75,6 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
               <p className="text-gray-600">
                 基于心理学理论 + 游戏私货 + 维度相关性的高级算法
               </p>
-              {canUseQuestionSelection && useQuestionSelection && (
-                <div className="mt-3 inline-flex items-center gap-1 px-2 py-1 bg-purple-50 rounded-full">
-                  <span className="text-xs text-purple-600">✓ 支持抽题模式</span>
-                </div>
-              )}
             </div>
 
             <div className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow">
@@ -163,11 +95,6 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
               <p className="text-gray-600">
                 米哈游指数、粥指数、抽象度...科学私货维度全面分析
               </p>
-              {canUseQuestionSelection && useQuestionSelection && (
-                <div className="mt-3 inline-flex items-center gap-1 px-2 py-1 bg-pink-50 rounded-full">
-                  <span className="text-xs text-pink-600">✓ 维度平衡抽取</span>
-                </div>
-              )}
             </div>
           </>
         ) : (
@@ -213,12 +140,7 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-green-100 rounded-full">
               <span className="text-green-600 text-sm">1</span>
             </div>
-            <span className="text-gray-700">
-              {canUseQuestionSelection && useQuestionSelection
-                ? '本测试从50题中抽取36题，大约需要5-8分钟'
-                : '本测试共36题A/B选择，大约需要5-8分钟'
-              }
-            </span>
+            <span className="text-gray-700">本测试共36题A/B选择，大约需要5-8分钟</span>
           </li>
           <li className="flex items-start gap-3">
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-yellow-100 rounded-full">
@@ -232,16 +154,6 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
             </div>
             <span className="text-gray-700">测试结果仅供娱乐，如有雷同，那孩子你无敌了😭</span>
           </li>
-          {canUseQuestionSelection && useQuestionSelection && (
-            <li className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-blue-100 rounded-full">
-                <Shuffle size={12} className="text-blue-600" />
-              </div>
-              <span className="text-gray-700">
-                抽题模式：每次测试题目不同，确保10个维度平衡覆盖，增加测试可重复性
-              </span>
-            </li>
-          )}
         </ul>
       </div>
 
@@ -252,13 +164,10 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
           className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xl font-bold rounded-2xl hover:shadow-2xl transition-all transform hover:-translate-y-1"
         >
           <Play size={24} />
-          {canUseQuestionSelection && useQuestionSelection ? '开始抽题测试' : '开始测试'}
+          开始测试
         </button>
         <p className="text-gray-500 text-sm mt-4">
           已有超过10,000+抽象带师完成测试
-          {canUseQuestionSelection && useQuestionSelection && (
-            <span className="ml-2 text-green-600">· 抽题模式：每次都有新发现！</span>
-          )}
         </p>
       </div>
     </div>
