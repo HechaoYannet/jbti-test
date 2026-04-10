@@ -130,13 +130,6 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
             </div>
           </>
         )}
-=======
-            <div className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-xl mb-4">
-                <Users size={24} className="text-blue-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">10个私货维度</h3>
-              <p className="text-gray-600">
       </div>
 
       {/* 测试说明 */}
@@ -153,7 +146,7 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-yellow-100 rounded-full">
               <span className="text-yellow-600 text-sm">2</span>
             </div>
-            <span className="text-gray-700">字研“J&B”量表，反应潜意识人格！网络重拳出击😡！</span>
+            <span className="text-gray-700">字研"J&B"量表，反应潜意识人格！网络重拳出击😡！</span>
           </li>
           <li className="flex items-start gap-3">
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-red-100 rounded-full">
@@ -164,27 +157,17 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
         </ul>
       </div>
 
-      {/* 开始按钮 */}
+      {/* 开始测试按钮 */}
       <div className="text-center">
         <button
           onClick={onStart}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xl font-bold rounded-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xl font-bold rounded-2xl hover:shadow-2xl transition-all transform hover:-translate-y-1"
         >
           <Play size={24} />
-          开始抽象测试
+          开始测试
         </button>
-
         <p className="text-gray-500 text-sm mt-4">
-          点击开始，解锁你的抽象人格！
-        </p>
-      </div>
-
-      {/* 免责声明 */}
-      <div className="mt-8 pt-6 border-t border-gray-200">
-        <p className="text-xs text-gray-500 text-center">
-          JBTI™ - Just Be Totally Interesting (才怪)
-          <br />
-          本测试与任何正式人格测试无关，纯属整活娱乐
+          已有超过10,000+抽象带师完成测试
         </p>
       </div>
     </div>
