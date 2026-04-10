@@ -1,23 +1,35 @@
 import React from 'react';
 import type { TestResult } from '../data/types';
+import type { AdvancedTestResult } from '../utils/advancedAlgorithm';
+import AdvancedResultCard from './AdvancedResultCard';
 import { Share2, RefreshCw, Download, Sparkles } from 'lucide-react';
 
 interface ResultCardProps {
-  result: TestResult;
+  result: TestResult | AdvancedTestResult;
   onRestart: () => void;
+  algorithmVersion?: 'v2' | 'v3';
+  algorithmInfo?: any;
 }
 
-const ResultCard: React.FC<ResultCardProps> = ({ result, onRestart }) => {
-  const { type, breakdown } = result;
+const ResultCard: React.FC<ResultCardProps> = (props) => {
+  const { result, onRestart, algorithmVersion = 'v2' } = props;
+
+  // 如果是v3算法且是高级结果，使用AdvancedResultCard
+  if (algorithmVersion === 'v3' && 'gameCamps' in result) {
+    return <AdvancedResultCard {...props} result={result as AdvancedTestResult} algorithmVersion={algorithmVersion} />;
+  }
+
+  // 否则使用原来的逻辑（v2算法或普通结果）
+  const { type, breakdown } = result as TestResult;
 
   // 分享结果
   const handleShare = async () => {
-    const shareText = `我的JBTI测试结果是：${type.name} - ${type.description}\n\n快来测测你是什么抽象人格吧！`;
+    const shareText = `我的JBTI ${algorithmVersion === 'v3' ? '3.0' : '2.0'}测试结果是：${type.name} - ${type.description}\n\n快来测测你是什么抽象人格吧！`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'JBTI测试结果',
+          title: `JBTI ${algorithmVersion === 'v3' ? '3.0' : '2.0'}测试结果`,
           text: shareText,
           url: window.location.href,
         });
@@ -42,10 +54,12 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onRestart }) => {
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full mb-4">
           <Sparkles size={16} className="text-purple-600" />
-          <span className="text-sm font-medium text-purple-700">测试完成！</span>
+          <span className="text-sm font-medium text-purple-700">
+            测试完成！{algorithmVersion === 'v3' ? '🔬 科学私货版' : '🎭 经典荒诞版'}
+          </span>
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          你的JBTI 2.0人格是：
+          你的JBTI {algorithmVersion === 'v3' ? '3.0' : '2.0'}人格是：
         </h1>
         <div className="mb-4">
           <div
@@ -97,14 +111,16 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onRestart }) => {
             <div key={index} className="bg-white p-4 rounded-xl border border-gray-200">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-medium text-gray-800">
-                  {item.dimension === 'rice' && '🍚 米性'}
-                  {item.dimension === 'fake' && '🎭 伪度'}
-                  {item.dimension === 'dragon' && '🐉 龙化'}
-                  {item.dimension === 'pill' && '🔮 丸化'}
-                  {item.dimension === 'abstract' && '🌀 抽象'}
+                  {item.dimension === 'mihoyo' && '🎮 米哈游指数'}
+                  {item.dimension === 'porridge' && '🍲 粥指数'}
+                  {item.dimension === 'fake' && '🎭 伪装度'}
+                  {item.dimension === 'dragon' && '🐉 龙化度'}
+                  {item.dimension === 'pill' && '🔮 丸化度'}
+                  {item.dimension === 'abstract' && '🌀 抽象度'}
                   {item.dimension === 'meme' && '🤣 梗力'}
                   {item.dimension === 'cringe' && '😅 尬力'}
-                  {item.dimension === 'chaos' && '🌪️ 混沌'}
+                  {item.dimension === 'chaos' && '🌪️ 混沌度'}
+                  {item.dimension === 'balance' && '⚖️ 平衡指数'}
                 </span>
                 <span className="text-sm font-medium text-gray-600">
                   {item.description}
@@ -114,14 +130,14 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, onRestart }) => {
                 <div
                   className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-1000"
                   style={{
-                    width: `${Math.min(Math.max(item.score + 10, 0), 20) * 5}%`
+                    width: `${Math.min(Math.max(item.score + (algorithmVersion === 'v3' ? 20 : 10), 0), (algorithmVersion === 'v3' ? 40 : 20)) * (algorithmVersion === 'v3' ? 2.5 : 5)}%`
                   }}
                 />
               </div>
               <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>-10</span>
+                <span>{algorithmVersion === 'v3' ? '-20' : '-10'}</span>
                 <span>0</span>
-                <span>+10</span>
+                <span>{algorithmVersion === 'v3' ? '+20' : '+10'}</span>
               </div>
             </div>
           ))}

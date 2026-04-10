@@ -19,16 +19,18 @@ export interface PersonalityScore {
   value: number; // -2到2之间的分数
 }
 
-// JBTI人格维度（抽象搞笑版）
+// JBTI 3.0人格维度（科学私货版）
 export type PersonalityDimension =
-  | 'rice'        // 米性：对米饭的执着程度
-  | 'fake'        // 伪度：表演型人格强度
-  | 'dragon'      // 龙化：中二/幻想程度
-  | 'pill'        // 丸化：圆润/佛系程度
-  | 'abstract'    // 抽象：理解抽象事物的能力
-  | 'meme'        // 梗力：玩梗和接梗能力
-  | 'cringe'      // 尬力：制造尴尬的能力
-  | 'chaos';      // 混沌：制造混乱的能力
+  | 'mihoyo'      // 米哈游指数：游戏信仰忠诚度（原神启动！）
+  | 'porridge'    // 粥指数：审美开放性（合乎粥礼）
+  | 'fake'        // 伪装度：社会适应性/人设管理
+  | 'dragon'      // 龙化度：幻想倾向/中二程度
+  | 'pill'        // 丸化度：压力应对/佛系程度
+  | 'abstract'    // 抽象度：认知灵活性/第五维度
+  | 'meme'        // 梗力：文化融入度/玩梗能力
+  | 'cringe'      // 尬力：社交风险承受/尴尬制造
+  | 'chaos'       // 混沌度：秩序偏好/混乱创造
+  | 'balance';    // 平衡指数：人格整合/极端程度
 
 // JBTI人格类型结果
 export interface PersonalityType {

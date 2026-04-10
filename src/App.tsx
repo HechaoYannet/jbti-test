@@ -1,19 +1,30 @@
 import { useState, useEffect } from 'react';
 import { questions } from './data/questions';
-import { calculateResult } from './utils/testLogic';
+import { calculateResult, getAlgorithmInfo } from './utils/testLogic';
+import { calculateAdvancedResult } from './utils/advancedAlgorithm';
 import WelcomeCard from './components/WelcomeCard';
 import QuestionCard from './components/QuestionCard';
 import ResultCard from './components/ResultCard';
 import type { Option, TestResult } from './data/types';
+import type { AdvancedTestResult } from './utils/advancedAlgorithm';
 import './App.css';
 
 type TestState = 'welcome' | 'testing' | 'result';
+type AlgorithmVersion = 'v2' | 'v3';
 
 function App() {
   const [testState, setTestState] = useState<TestState>('welcome');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<TestResult | null>(null);
+  const [advancedResult, setAdvancedResult] = useState<AdvancedTestResult | null>(null);
+  const [algorithmVersion, setAlgorithmVersion] = useState<AlgorithmVersion>('v3');
+  const [algorithmInfo, setAlgorithmInfo] = useState<any>(null);
+
+  // 获取算法信息
+  useEffect(() => {
+    setAlgorithmInfo(getAlgorithmInfo());
+  }, []);
 
   // 处理开始测试
   const handleStartTest = () => {
@@ -21,6 +32,7 @@ function App() {
     setCurrentQuestion(0);
     setAnswers([]);
     setResult(null);
+    setAdvancedResult(null);
   };
 
   // 处理选项选择
@@ -34,8 +46,13 @@ function App() {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       // 所有题目答完，计算结果
-      const testResult = calculateResult(newAnswers);
-      setResult(testResult);
+      if (algorithmVersion === 'v3') {
+        const testResult = calculateAdvancedResult(newAnswers);
+        setAdvancedResult(testResult);
+      } else {
+        const testResult = calculateResult(newAnswers);
+        setResult(testResult);
+      }
       setTestState('result');
     }
   };
@@ -46,6 +63,12 @@ function App() {
     setCurrentQuestion(0);
     setAnswers([]);
     setResult(null);
+    setAdvancedResult(null);
+  };
+
+  // 切换算法版本
+  const toggleAlgorithmVersion = () => {
+    setAlgorithmVersion(algorithmVersion === 'v3' ? 'v2' : 'v3');
   };
 
   // 添加一些有趣的背景效果
@@ -79,7 +102,12 @@ function App() {
         {/* 主要内容 */}
         <main className="relative">
           {testState === 'welcome' && (
-            <WelcomeCard onStart={handleStartTest} />
+            <WelcomeCard
+              onStart={handleStartTest}
+              algorithmVersion={algorithmVersion}
+              onToggleAlgorithm={toggleAlgorithmVersion}
+              algorithmInfo={algorithmInfo}
+            />
           )}
 
           {testState === 'testing' && (
@@ -101,9 +129,22 @@ function App() {
             </div>
           )}
 
-          {testState === 'result' && result && (
+          {testState === 'result' && (result || advancedResult) && (
             <div className="animate-fadeIn">
-              <ResultCard result={result} onRestart={handleRestart} />
+              {algorithmVersion === 'v3' && advancedResult ? (
+                <ResultCard
+                  result={advancedResult}
+                  onRestart={handleRestart}
+                  algorithmVersion={algorithmVersion}
+                  algorithmInfo={algorithmInfo}
+                />
+              ) : result ? (
+                <ResultCard
+                  result={result}
+                  onRestart={handleRestart}
+                  algorithmVersion={algorithmVersion}
+                />
+              ) : null}
             </div>
           )}
         </main>
