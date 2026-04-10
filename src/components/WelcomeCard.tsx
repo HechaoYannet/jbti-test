@@ -32,7 +32,7 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({
           {canUseQuestionSelection && useQuestionSelection && (
             <span className="inline-flex items-center gap-1 ml-2 px-2 py-1 bg-gradient-to-r from-green-100 to-emerald-100 rounded-full">
               <Shuffle size={12} className="text-green-600" />
-              <span className="text-xs font-medium text-green-700">抽题模式</span>
+              <span className="text-xs font-medium text-green-700">抽题</span>
             </span>
           )}
         </div>
