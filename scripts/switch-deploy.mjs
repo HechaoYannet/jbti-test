@@ -9,7 +9,7 @@ const target = process.argv[2]
 const validTargets = new Set(['vercel', 'github-pages'])
 
 if (!validTargets.has(target)) {
-  console.error('用法: node scripts/switch-deploy.mjs <vercel|github-pages>')
+  console.error('Usage: node scripts/switch-deploy.mjs <vercel|github-pages>')
   process.exit(1)
 }
 
@@ -35,5 +35,5 @@ if (target === 'vercel') {
   }
 }
 
-console.log(`已切换部署目标: ${target}`)
-console.log(`Vite base 路径将使用: ${target === 'github-pages' ? '/jbti-test/' : '/'}`)
+console.log(`Deployment target switched to: ${target}`)
+console.log(`Vite base path: ${target === 'github-pages' ? '/jbti-test/' : '/'}`)
