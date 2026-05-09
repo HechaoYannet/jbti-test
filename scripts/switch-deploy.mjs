@@ -13,7 +13,7 @@ if (!validTargets.has(target)) {
   process.exit(1)
 }
 
-writeFileSync(resolve(repoRoot, '.deploy-target'), `${target}\n`, 'utf8')
+writeFileSync(resolve(repoRoot, '.deploy-target'), target, 'utf8')
 
 const workflowDir = resolve(repoRoot, '.github/workflows')
 const activeWorkflow = resolve(workflowDir, 'deploy.yml')
