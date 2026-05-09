@@ -3,13 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://hechaoyannet.github.io/jbti-test",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy:vercel": "npx vercel --prod",
+    "switch:vercel": "node scripts/switch-deploy.mjs vercel",
+    "switch:github-pages": "node scripts/switch-deploy.mjs github-pages"
   },
   "dependencies": {
     "lucide-react": "^1.8.0",

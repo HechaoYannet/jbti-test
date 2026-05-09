@@ -28,9 +28,11 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Build
+        env:
+          DEPLOY_TARGET: github-pages
         run: npm run build
 
       - name: Setup Pages
