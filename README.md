@@ -38,20 +38,34 @@ npm run preview
 
 ## 🌐 部署
 
-### GitHub Pages
+### 当前默认：Vercel
 
-1. Fork 本仓库
-2. 在仓库设置中启用 GitHub Pages
-3. 选择 `gh-pages` 分支作为源
+1. 在 Vercel 导入本仓库
+2. Framework 选择 `Vite`
+3. Build Command 使用 `npm run build`
+4. Output Directory 使用 `dist`
+
+### 一键切换部署目标
+
+```bash
+# 切换为 Vercel（默认）
+npm run switch:vercel
+
+# 切换为 GitHub Pages
+npm run switch:github-pages
+```
+
+切换后会自动更新：
+
+- `.deploy-target`（控制 Vite 的 base 路径）
+- GitHub Pages workflow 开关（`deploy.yml` 与 `deploy.github-pages.yml.disabled`）
+
+### GitHub Pages（切换后可用）
+
+1. 运行 `npm run switch:github-pages`
+2. 提交并推送切换结果
+3. 在仓库设置中启用 GitHub Pages Actions 部署
 4. 访问 `https://你的用户名.github.io/jbti-test`
-
-### Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/jbti-test)
-
-1. 点击上方按钮
-2. 连接你的 GitHub 账户
-3. 一键部署
 
 ### Netlify
 
