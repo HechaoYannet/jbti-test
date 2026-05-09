@@ -36,4 +36,3 @@ if (target === 'vercel') {
 }
 
 console.log(`Deployment target switched to: ${target}`)
-console.log(`Vite base path: ${target === 'github-pages' ? '/jbti-test/' : '/'}`)

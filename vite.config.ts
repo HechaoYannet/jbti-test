@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const repoRoot = fileURLToPath(new URL('.', import.meta.url))
+const configDir = fileURLToPath(new URL('.', import.meta.url))
 
 const getDeployTarget = () => {
   const envTarget = process.env.DEPLOY_TARGET
@@ -13,7 +13,7 @@ const getDeployTarget = () => {
   }
 
   try {
-    const value = readFileSync(resolve(repoRoot, '.deploy-target'), 'utf8').trim()
+    const value = readFileSync(resolve(configDir, '.deploy-target'), 'utf8').trim()
     return value === 'github-pages' ? 'github-pages' : 'vercel'
   } catch {
     return 'vercel'
